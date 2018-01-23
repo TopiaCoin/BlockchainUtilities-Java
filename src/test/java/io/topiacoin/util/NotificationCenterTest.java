@@ -25,8 +25,8 @@ public class NotificationCenterTest {
     public void testNotificationDeliveryMatrixWithNotifications() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = null;
 
         // Counters for tracking how many notifications should have been received by each handler.
@@ -50,9 +50,6 @@ public class NotificationCenterTest {
         Notification otocNotification = new Notification(otherNotificationName, otherClassifier, notificationInfo);
         Notification otNotification = new Notification(otherNotificationName, null, notificationInfo);
 
-        Notification cNotification = new Notification(null, classifier, notificationInfo);
-        Notification ocNotification = new Notification(null, otherClassifier, notificationInfo);
-
         NotificationCenter notificationCenter = NotificationCenter.defaultCenter();
 
         // Create the Notification Handlers that we will be testing with
@@ -68,16 +65,16 @@ public class NotificationCenterTest {
         TestNotificationHandler ocHandler = new TestNotificationHandler();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, tcHandler);
-        notificationCenter.addHandler(notificationName, otherClassifier, tocHandler);
-        notificationCenter.addHandler(notificationName, null, tHandler);
+        notificationCenter.addHandler(tcHandler, notificationName, classifier);
+        notificationCenter.addHandler(tocHandler, notificationName, otherClassifier);
+        notificationCenter.addHandler(tHandler, notificationName, null);
 
-        notificationCenter.addHandler(otherNotificationName, classifier, otcHandler);
-        notificationCenter.addHandler(otherNotificationName, otherClassifier, otocHandler);
-        notificationCenter.addHandler(otherNotificationName, null, otHandler);
+        notificationCenter.addHandler(otcHandler, otherNotificationName, classifier);
+        notificationCenter.addHandler(otocHandler, otherNotificationName, otherClassifier);
+        notificationCenter.addHandler(otHandler, otherNotificationName, null);
 
-        notificationCenter.addHandler(null, classifier, cHandler);
-        notificationCenter.addHandler(null, otherClassifier, ocHandler);
+        notificationCenter.addHandler(cHandler, null, classifier);
+        notificationCenter.addHandler(ocHandler, null, otherClassifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(tcNotification);
@@ -171,34 +168,6 @@ public class NotificationCenterTest {
         assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
         assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
 
-        // Post the Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(cNotification);
-
-        expectedCReceived++;
-
-        assertEquals("Type/Classifier ReceiveCount Wrong", expectedTCReceived, tcHandler.receivedNotifications.size());
-        assertEquals("Type/Other Classifier ReceiveCount Wrong", expectedTOCReceived, tocHandler.receivedNotifications.size());
-        assertEquals("Type ReceiveCount Wrong", expectedTReceived, tHandler.receivedNotifications.size());
-        assertEquals("Other Type/Classifier ReceiveCount Wrong", expectedOTCReceived, otcHandler.receivedNotifications.size());
-        assertEquals("Other Type/Other Classifier ReceiveCount Wrong", expectedOTOCReceived, otocHandler.receivedNotifications.size());
-        assertEquals("Other Type ReceiveCount Wrong", expectedOTReceived, otHandler.receivedNotifications.size());
-        assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
-        assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
-
-        // Post the Other Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(ocNotification);
-
-        expectedOCReceived++;
-
-        assertEquals("Type/Classifier ReceiveCount Wrong", expectedTCReceived, tcHandler.receivedNotifications.size());
-        assertEquals("Type/Other Classifier ReceiveCount Wrong", expectedTOCReceived, tocHandler.receivedNotifications.size());
-        assertEquals("Type ReceiveCount Wrong", expectedTReceived, tHandler.receivedNotifications.size());
-        assertEquals("Other Type/Classifier ReceiveCount Wrong", expectedOTCReceived, otcHandler.receivedNotifications.size());
-        assertEquals("Other Type/Other Classifier ReceiveCount Wrong", expectedOTOCReceived, otocHandler.receivedNotifications.size());
-        assertEquals("Other Type ReceiveCount Wrong", expectedOTReceived, otHandler.receivedNotifications.size());
-        assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
-        assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
-
         System.out.println("Type/Classifier Handler notification Count: " + tcHandler.receivedNotifications.size());
         System.out.println("Type/Other Classifier Handler notification Count: " + tocHandler.receivedNotifications.size());
         System.out.println("Type/No Classifier Handler notification Count: " + tHandler.receivedNotifications.size());
@@ -214,8 +183,8 @@ public class NotificationCenterTest {
     public void testNotificationDeliveryMatrixWithNameAndClassifier() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = null;
 
         // Counters for tracking how many notifications should have been received by each handler.
@@ -245,16 +214,16 @@ public class NotificationCenterTest {
         TestNotificationHandler ocHandler = new TestNotificationHandler();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, tcHandler);
-        notificationCenter.addHandler(notificationName, otherClassifier, tocHandler);
-        notificationCenter.addHandler(notificationName, null, tHandler);
+        notificationCenter.addHandler(tcHandler, notificationName, classifier);
+        notificationCenter.addHandler(tocHandler, notificationName, otherClassifier);
+        notificationCenter.addHandler(tHandler, notificationName, null);
 
-        notificationCenter.addHandler(otherNotificationName, classifier, otcHandler);
-        notificationCenter.addHandler(otherNotificationName, otherClassifier, otocHandler);
-        notificationCenter.addHandler(otherNotificationName, null, otHandler);
+        notificationCenter.addHandler(otcHandler, otherNotificationName, classifier);
+        notificationCenter.addHandler(otocHandler, otherNotificationName, otherClassifier);
+        notificationCenter.addHandler(otHandler, otherNotificationName, null);
 
-        notificationCenter.addHandler(null, classifier, cHandler);
-        notificationCenter.addHandler(null, otherClassifier, ocHandler);
+        notificationCenter.addHandler(cHandler, null, classifier);
+        notificationCenter.addHandler(ocHandler, null, otherClassifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(notificationName, classifier, notificationInfo);
@@ -348,34 +317,6 @@ public class NotificationCenterTest {
         assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
         assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
 
-        // Post the Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(null, classifier, notificationInfo);
-
-        expectedCReceived++;
-
-        assertEquals("Type/Classifier ReceiveCount Wrong", expectedTCReceived, tcHandler.receivedNotifications.size());
-        assertEquals("Type/Other Classifier ReceiveCount Wrong", expectedTOCReceived, tocHandler.receivedNotifications.size());
-        assertEquals("Type ReceiveCount Wrong", expectedTReceived, tHandler.receivedNotifications.size());
-        assertEquals("Other Type/Classifier ReceiveCount Wrong", expectedOTCReceived, otcHandler.receivedNotifications.size());
-        assertEquals("Other Type/Other Classifier ReceiveCount Wrong", expectedOTOCReceived, otocHandler.receivedNotifications.size());
-        assertEquals("Other Type ReceiveCount Wrong", expectedOTReceived, otHandler.receivedNotifications.size());
-        assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
-        assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
-
-        // Post the Other Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(null, otherClassifier, notificationInfo);
-
-        expectedOCReceived++;
-
-        assertEquals("Type/Classifier ReceiveCount Wrong", expectedTCReceived, tcHandler.receivedNotifications.size());
-        assertEquals("Type/Other Classifier ReceiveCount Wrong", expectedTOCReceived, tocHandler.receivedNotifications.size());
-        assertEquals("Type ReceiveCount Wrong", expectedTReceived, tHandler.receivedNotifications.size());
-        assertEquals("Other Type/Classifier ReceiveCount Wrong", expectedOTCReceived, otcHandler.receivedNotifications.size());
-        assertEquals("Other Type/Other Classifier ReceiveCount Wrong", expectedOTOCReceived, otocHandler.receivedNotifications.size());
-        assertEquals("Other Type ReceiveCount Wrong", expectedOTReceived, otHandler.receivedNotifications.size());
-        assertEquals("Classifier ReceiveCount Wrong", expectedCReceived, cHandler.receivedNotifications.size());
-        assertEquals("Other Classifier ReceiveCount Wrong", expectedOCReceived, ocHandler.receivedNotifications.size());
-
         System.out.println("Type/Classifier Handler notification Count: " + tcHandler.receivedNotifications.size());
         System.out.println("Type/Other Classifier Handler notification Count: " + tocHandler.receivedNotifications.size());
         System.out.println("Type/No Classifier Handler notification Count: " + tHandler.receivedNotifications.size());
@@ -391,8 +332,8 @@ public class NotificationCenterTest {
     public void testRegisterForMultipleTypes() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = null;
 
         // Counters for tracking how many notifications should have been received by each handler.
@@ -407,25 +348,22 @@ public class NotificationCenterTest {
         Notification otocNotification = new Notification(otherNotificationName, otherClassifier, notificationInfo);
         Notification otNotification = new Notification(otherNotificationName, null, notificationInfo);
 
-        Notification cNotification = new Notification(null, classifier, notificationInfo);
-        Notification ocNotification = new Notification(null, otherClassifier, notificationInfo);
-
         NotificationCenter notificationCenter = NotificationCenter.defaultCenter();
 
         // Create the Notification Handlers that we will be testing with
         TestNotificationHandler handler = new TestNotificationHandler();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, handler);
-        notificationCenter.addHandler(notificationName, otherClassifier, handler);
-        notificationCenter.addHandler(notificationName, null, handler);
+        notificationCenter.addHandler(handler, notificationName, classifier);
+        notificationCenter.addHandler(handler, notificationName, otherClassifier);
+        notificationCenter.addHandler(handler, notificationName, null);
 
-        notificationCenter.addHandler(otherNotificationName, classifier, handler);
-        notificationCenter.addHandler(otherNotificationName, otherClassifier, handler);
-        notificationCenter.addHandler(otherNotificationName, null, handler);
+        notificationCenter.addHandler(handler, otherNotificationName, classifier);
+        notificationCenter.addHandler(handler, otherNotificationName, otherClassifier);
+        notificationCenter.addHandler(handler, otherNotificationName, null);
 
-        notificationCenter.addHandler(null, classifier, handler);
-        notificationCenter.addHandler(null, otherClassifier, handler);
+        notificationCenter.addHandler(handler, null, classifier);
+        notificationCenter.addHandler(handler, null, otherClassifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(tcNotification);
@@ -463,18 +401,6 @@ public class NotificationCenterTest {
         expectedReceived++;
         assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
 
-        // Post the Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(cNotification);
-
-        expectedReceived++;
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
-        // Post the Other Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(ocNotification);
-
-        expectedReceived++;
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
         System.out.println("Type/Classifier Handler notification Count: " + handler.receivedNotifications.size());
 
     }
@@ -484,8 +410,8 @@ public class NotificationCenterTest {
     public void testNotificationsNotReceivedAfterGlobalUnregister() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = null;
 
         // Counters for tracking how many notifications should have been received by each handler.
@@ -500,7 +426,7 @@ public class NotificationCenterTest {
         NotificationCenter notificationCenter = NotificationCenter.defaultCenter();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, handler);
+        notificationCenter.addHandler(handler, notificationName, classifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(tcNotification);
@@ -522,8 +448,8 @@ public class NotificationCenterTest {
     public void testNotificationsNotReceivedAfterSpecificUnregister() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = null;
 
         // Counters for tracking how many notifications should have been received by each handler.
@@ -538,25 +464,22 @@ public class NotificationCenterTest {
         Notification otocNotification = new Notification(otherNotificationName, otherClassifier, notificationInfo);
         Notification otNotification = new Notification(otherNotificationName, null, notificationInfo);
 
-        Notification cNotification = new Notification(null, classifier, notificationInfo);
-        Notification ocNotification = new Notification(null, otherClassifier, notificationInfo);
-
         NotificationCenter notificationCenter = NotificationCenter.defaultCenter();
 
         // Create the Notification Handlers that we will be testing with
         TestNotificationHandler handler = new TestNotificationHandler();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, handler);
-        notificationCenter.addHandler(notificationName, otherClassifier, handler);
-        notificationCenter.addHandler(notificationName, null, handler);
+        notificationCenter.addHandler(handler, notificationName, classifier);
+        notificationCenter.addHandler(handler, notificationName, otherClassifier);
+        notificationCenter.addHandler(handler, notificationName, null);
 
-        notificationCenter.addHandler(otherNotificationName, classifier, handler);
-        notificationCenter.addHandler(otherNotificationName, otherClassifier, handler);
-        notificationCenter.addHandler(otherNotificationName, null, handler);
+        notificationCenter.addHandler(handler, otherNotificationName, classifier);
+        notificationCenter.addHandler(handler, otherNotificationName, otherClassifier);
+        notificationCenter.addHandler(handler, otherNotificationName, null);
 
-        notificationCenter.addHandler(null, classifier, handler);
-        notificationCenter.addHandler(null, otherClassifier, handler);
+        notificationCenter.addHandler(handler, null, classifier);
+        notificationCenter.addHandler(handler, null, otherClassifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(tcNotification);
@@ -590,18 +513,6 @@ public class NotificationCenterTest {
 
         // Post the Other Type Only Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(otNotification);
-
-        expectedReceived++;
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
-        // Post the Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(cNotification);
-
-        expectedReceived++;
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
-        // Post the Other Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(ocNotification);
 
         expectedReceived++;
         assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
@@ -645,17 +556,6 @@ public class NotificationCenterTest {
 
         assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
 
-        // Post the Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(cNotification);
-
-        expectedReceived++;
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
-        // Post the Other Classifier Only Notification and verify the handlers to make sure the right handlers received it.
-        notificationCenter.postNotification(ocNotification);
-
-        assertEquals("Receive Count is Wrong", expectedReceived, handler.receivedNotifications.size());
-
         System.out.println("Type/Classifier Handler notification Count: " + handler.receivedNotifications.size());
     }
 
@@ -663,8 +563,8 @@ public class NotificationCenterTest {
     public void testPostedNotificationMatchesReceivedNotification() {
         String notificationName = "testNotification";
         String otherNotificationName = "otherTestNotification";
-        Object classifier = "classifier";
-        Object otherClassifier = "otherClassifier";
+        String classifier = "classifier";
+        String otherClassifier = "otherClassifier";
         Map<String, Object> notificationInfo = new HashMap<String, Object>();
 
         notificationInfo.put("key1", "value1");
@@ -679,7 +579,7 @@ public class NotificationCenterTest {
         NotificationCenter notificationCenter = NotificationCenter.defaultCenter();
 
         // Add the handlers with the appropriate types and classifiers
-        notificationCenter.addHandler(notificationName, classifier, handler);
+        notificationCenter.addHandler(handler, notificationName, classifier);
 
         // Post the Type/Classifier Notification and verify the handlers to make sure the right handlers received it.
         notificationCenter.postNotification(tcNotification);

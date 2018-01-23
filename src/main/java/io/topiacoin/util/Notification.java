@@ -6,10 +6,13 @@ import java.util.Map;
 public class Notification {
 
     private String notificationName;
-    private Object classifier ;
+    private String classifier ;
     private Map<String, Object> notificationInfo;
 
-    public Notification(String notificationName, Object classifier, Map<String, Object> notificationInfo) {
+    public Notification(String notificationName, String classifier, Map<String, Object> notificationInfo) {
+        if (notificationName == null || notificationName.trim().length() == 0) {
+            throw new IllegalArgumentException("Notification name must be specified.");
+        }
         this.notificationName = notificationName;
         this.classifier = classifier;
         if ( notificationInfo != null ) {
@@ -21,7 +24,7 @@ public class Notification {
         return notificationName;
     }
 
-    public Object getClassifier() {
+    public String getClassifier() {
         return classifier;
     }
 
